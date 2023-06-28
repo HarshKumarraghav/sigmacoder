@@ -66,7 +66,7 @@ const Signuppage = () => {
             className="flex flex-col items-center w-full gap-3"
             variants={formVariants}
           >
-            <div className="flex flex-col md:flex-row w-3/4 md:w-2/4 gap-x-3">
+            <div className="flex flex-col md:flex-row w-3/4 md:w-2/4 gap-x-3 gap-y-2">
               <input
                 type="text"
                 required

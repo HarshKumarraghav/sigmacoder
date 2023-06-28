@@ -40,7 +40,7 @@ const LoginPage = () => {
         <motion.img className="w-full h-full" src="/Images/login.svg" />
       </motion.div>
       <motion.div
-        className="lg:w-1/2 lg:h-full lg:justify-evenly lg:bg-primary-light w-full h-2/3 flex flex-col items-center justify-between py-5"
+        className="lg:w-1/2 lg:h-full lg:justify-evenly lg:bg-primary-light w-full h-2/3 flex flex-col items-center justify-evenly py-5"
         variants={formVariants}
       >
         <div className="main___background___gradient"></div>

@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 const Section1 = () => {
+  const router = useNavigate();
   return (
     <motion.main
       initial={{ opacity: 0, y: -50 }}
@@ -38,6 +40,7 @@ const Section1 = () => {
           animate={{ scale: 1 }}
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.5 }}
+          onClick={() => router("/signup")}
           className="bg-primary flex items-center justify-center hover__button gap-4 rounded-full duration-200 ease-out h-16 w-52 text-white font-semibold hover:brightness-95"
         >
           Get Started

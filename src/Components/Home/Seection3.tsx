@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
 
 const Section3 = () => {
+  const router = useNavigate();
   const [ref, inView] = useInView({
     triggerOnce: true,
   });
@@ -71,6 +73,7 @@ const Section3 = () => {
       </motion.h1>
       <motion.button
         initial="hidden"
+        onClick={() => router("/signup")}
         animate={inView ? "visible" : "hidden"}
         whileTap="whileTap"
         variants={buttonVariants}
