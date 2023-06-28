@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+  const Router = useNavigate();
   return (
     <header className="sticky top-0 z-40 w-full header__blur">
       <div className="container mx-auto flex flex-row justify-between items-center py-4 px-2">
@@ -15,6 +17,7 @@ const Header = () => {
         </div>
         <div className="flex items-center space-x-4">
           <motion.button
+            onClick={() => Router("/login")}
             className="bg-primary py-2 px-4 rounded-full text-sm text-white focus:outline-none hover__button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
