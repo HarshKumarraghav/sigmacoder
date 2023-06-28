@@ -18,3 +18,49 @@ html {
     font-style: normal;
   }
 }
+.header__blur {
+  background: hsla(0, 0%, 100%, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.gradient___text___color {
+  background: linear-gradient(30deg, #0057ff, #ec008c, #0057ff) 0 0 /400% 100%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: move-bg 15s linear infinite;
+}
+.div__height {
+  height: calc(100vh - 3rem);
+}
+.main___background___gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background: radial-gradient(
+      circle at 85% 33%,
+      rgba(0, 255, 235, 0.085),
+      hsla(0, 0%, 100%, 0) 25%
+    ),
+    radial-gradient(
+      circle at 12% 55%,
+      rgba(108, 99, 255, 0.1),
+      hsla(0, 0%, 100%, 0) 25%
+    );
+}
+.hover__button:hover {
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 0 7px #0057ff29;
+}
+.hover__button__Black:hover {
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 0 7px #00000029;
+}
+@keyframes move-bg {
+  100% {
+    background-position: 400% 0;
+  }
+}

@@ -3,13 +3,8 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      fontFamily: {
-        head: ["Abril Fatface", "cursive"],
-        gara: ["Cormorant Garamond", "serif"],
-        custom: ["Montserrat", "sans-serif"],
-      },
       colors: {
-        base: "#0057ff",
+        primary: "#0057ff",
         "base-dark": "#003daa",
         "base-light": "#0072ff",
         white: "#ffffff",
