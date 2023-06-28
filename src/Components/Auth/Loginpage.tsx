@@ -1,7 +1,10 @@
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Otpmodal from "./Otpmodal";
+import { useState } from "react";
 const LoginPage = () => {
+  const [showModal, setShowModal] = useState(false);
   const containerVariants = {
     initial: { opacity: 0 },
     animate: { opacity: 1, transition: { duration: 0.5 } },
@@ -76,6 +79,12 @@ const LoginPage = () => {
           >
             Login
           </motion.button>
+          <p
+            className="w-3/4 md:w-2/4 text-end text-sm cursor-pointer text-gray-400"
+            onClick={() => setShowModal(true)}
+          >
+            login using OTP?
+          </p>
         </motion.form>
         <div>
           Don't have an account?&nbsp;
@@ -87,6 +96,7 @@ const LoginPage = () => {
           </span>
         </div>
       </motion.div>
+      <Otpmodal showModal={showModal} setShowModal={setShowModal} />
     </motion.div>
   );
 };
