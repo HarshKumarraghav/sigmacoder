@@ -9,21 +9,31 @@ type LoginInfo = {
   email: string;
   password: string;
 };
+
 type Props = {
   loginInfo: LoginInfo;
   setLoginInfo: React.Dispatch<React.SetStateAction<LoginInfo>>;
+  LoginHandler: () => void;
+  isLoading: boolean;
 };
-const LoginPage = ({ loginInfo, setLoginInfo }: Props) => {
+const LoginPage = ({
+  loginInfo,
+  setLoginInfo,
+  isLoading,
+  LoginHandler,
+}: Props) => {
+  // State to disable button if any of the input is empty
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  // State to store validation errors
   const [validationErrors, setValidationErrors] = useState({
     email: "",
     password: "",
   });
+  // State to show OTP modal
   const [showOTPModal, setShowOTPModal] = useState(false);
+  // State to show phone modal
   const [showPhoneModal, setShowPhoneModal] = useState(false);
-  useEffect(() => {
-    setIsButtonDisabled(!loginInfo.email || !loginInfo.password);
-  }, [loginInfo]);
+  // Framer motion variants for animation
   const containerVariants = {
     initial: { opacity: 0 },
     animate: { opacity: 1, transition: { duration: 0.5 } },
@@ -38,10 +48,16 @@ const LoginPage = ({ loginInfo, setLoginInfo }: Props) => {
     hover: { scale: 1.1 },
     tap: { scale: 0.9 },
   };
+  // useEffect to disable button if any of the input is empty
+  useEffect(() => {
+    setIsButtonDisabled(!loginInfo.email || !loginInfo.password);
+  }, [loginInfo]);
+  // Router to navigate to different pages
   const router = useNavigate();
+  // Function to handle login
   const handleLogin = () => {
     if (!validateLoginInputs(loginInfo, setValidationErrors)) {
-      setShowPhoneModal(true);
+      LoginHandler();
     }
   };
   return (
@@ -116,6 +132,7 @@ const LoginPage = ({ loginInfo, setLoginInfo }: Props) => {
           {validationErrors.password && (
             <p className="text-red-600 ml-5">{validationErrors.password}</p>
           )}
+
           <motion.button
             className={`w-3/4 md:w-2/4 text-center h-12 rounded-md bg-primary text-white  ${
               !isButtonDisabled
@@ -123,11 +140,25 @@ const LoginPage = ({ loginInfo, setLoginInfo }: Props) => {
                 : "opacity-50 pointer-events-none"
             }`}
             variants={buttonVariants}
-            disabled={isButtonDisabled}
-            onClick={handleLogin}
+            disabled={isLoading || isButtonDisabled}
             whileTap="tap"
+            onClick={handleLogin}
           >
-            Login
+            {isLoading ? (
+              <span className="w-full flex items-center justify-center gap-x-4">
+                <div
+                  className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                  role="status"
+                >
+                  <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                    Loading...
+                  </span>
+                </div>
+                <span>Logging In</span>
+              </span>
+            ) : (
+              <span>Login</span>
+            )}
           </motion.button>
 
           <p
