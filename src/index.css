@@ -64,3 +64,6 @@ html {
     background-position: 400% 0;
   }
 }
+.hide__scrollbar::-webkit-scrollbar {
+  display: none;
+}

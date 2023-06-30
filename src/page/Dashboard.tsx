@@ -1,19 +1,6 @@
-import { useAuth } from "../Context/UserContext";
-
+import DashboardUI from "../Components/Dashboard/Dashboard";
 const Dashboard = () => {
-  const { signOut } = useAuth();
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <button
-        onClick={() => {
-          signOut();
-        }}
-      >
-        signout
-      </button>
-    </div>
-  );
+  return <DashboardUI />;
 };
 
 export default Dashboard;
