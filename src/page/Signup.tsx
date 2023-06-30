@@ -2,7 +2,10 @@ import { useState } from "react";
 import Signuppage from "../Components/Auth/Signuppage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+
 const Signup = () => {
+  const Router = useNavigate();
   const [signupInfo, setSignupInfo] = useState({
     name: "",
     email: "",
@@ -29,11 +32,9 @@ const Signup = () => {
     try {
       const response = await fetch(uri, requestOptions);
       if (response.ok) {
-        setLoading(false);
-        const data = await response.json();
-        console.log(data);
+        Router("/login");
         ClearSignupInfo();
-        return data;
+        setLoading(false);
       } else {
         setLoading(false);
         throw new Error("Signup failed. Please check your credentials.");

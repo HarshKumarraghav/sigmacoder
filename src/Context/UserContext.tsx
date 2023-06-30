@@ -1,7 +1,9 @@
 import { useState, createContext, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext<any>(null);
 const AuthProvider = ({ children }: any) => {
+  const Router = useNavigate();
   const [authData, setAuthData] = useState<any>({});
   const [loading, setLoading] = useState(true);
   /**
@@ -30,6 +32,8 @@ const AuthProvider = ({ children }: any) => {
     try {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("access_token");
+      localStorage.removeItem("expTime");
+      Router("/");
       setAuthData(null);
     } catch (error) {
       console.log(error);

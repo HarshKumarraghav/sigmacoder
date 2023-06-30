@@ -53,7 +53,14 @@ const Signuppage = ({
         !signupInfo.password
     );
   }, [signupInfo]);
-
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputPhoneNumber = e.target.value;
+    const formattedPhoneNumber = inputPhoneNumber.slice(0, 10);
+    setSignupInfo({
+      ...signupInfo,
+      phonenumber: formattedPhoneNumber,
+    });
+  };
   return (
     <>
       <motion.div
@@ -138,9 +145,7 @@ const Signuppage = ({
             <input
               type="number"
               value={signupInfo.phonenumber}
-              onChange={(e) => {
-                setSignupInfo({ ...signupInfo, phonenumber: e.target.value });
-              }}
+              onChange={handlePhoneNumberChange}
               required
               className="border w-3/4 md:w-2/4 h-12 rounded-md   placeholder:font-light placeholder:p-2  focus:outline-primary text-primary p-2"
               placeholder="Phone number"

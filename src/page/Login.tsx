@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "../Components/Auth/Loginpage";
+import { useAuth } from "../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 type LoginInfo = {
   email: string;
@@ -9,6 +11,8 @@ type LoginInfo = {
 };
 
 const Login = () => {
+  const Router = useNavigate();
+  const { setAuthData } = useAuth();
   const [loginInfo, setLoginInfo] = useState<LoginInfo>({
     email: "",
     password: "",
@@ -20,7 +24,6 @@ const Login = () => {
       password: "",
     });
   };
-
   const LoginHandler = async () => {
     setLoading(true);
     const uri = `${import.meta.env.VITE_SIGMACODER_URI}auth/login`;
@@ -29,20 +32,27 @@ const Login = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loginInfo),
     };
-
     try {
       const response = await fetch(uri, requestOptions);
       if (response.ok) {
-        setLoading(false);
         const data = await response.json();
-        console.log(data);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("access_token", data.token);
+        localStorage.setItem("expTime", data.expTime);
+        localStorage.setItem("user", JSON.stringify(data.user));
         ClearLoginInfo();
-        return data;
+        setAuthData({
+          isLoggedIn: true,
+          token: data.token,
+        });
+        Router("/dashboard");
+        setLoading(false);
       } else {
         setLoading(false);
         throw new Error("Login failed. Please check your credentials.");
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error occurred:", error);
       throw error;
     }
