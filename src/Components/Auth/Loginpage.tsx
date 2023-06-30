@@ -2,9 +2,28 @@ import { FaArrowCircleLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Otpmodal from "./Otpmodal";
-import { useState } from "react";
-const LoginPage = () => {
-  const [showModal, setShowModal] = useState(false);
+import { useEffect, useState } from "react";
+import PhoneModal from "./phonemodal";
+import { validateLoginInputs } from "../../utils/Auth";
+type LoginInfo = {
+  email: string;
+  password: string;
+};
+type Props = {
+  loginInfo: LoginInfo;
+  setLoginInfo: React.Dispatch<React.SetStateAction<LoginInfo>>;
+};
+const LoginPage = ({ loginInfo, setLoginInfo }: Props) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [validationErrors, setValidationErrors] = useState({
+    email: "",
+    password: "",
+  });
+  const [showOTPModal, setShowOTPModal] = useState(false);
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
+  useEffect(() => {
+    setIsButtonDisabled(!loginInfo.email || !loginInfo.password);
+  }, [loginInfo]);
   const containerVariants = {
     initial: { opacity: 0 },
     animate: { opacity: 1, transition: { duration: 0.5 } },
@@ -20,6 +39,11 @@ const LoginPage = () => {
     tap: { scale: 0.9 },
   };
   const router = useNavigate();
+  const handleLogin = () => {
+    if (!validateLoginInputs(loginInfo, setValidationErrors)) {
+      setShowPhoneModal(true);
+    }
+  };
   return (
     <motion.div
       className="h-screen w-screen text-black flex lg:flex-row-reverse flex-col font-main"
@@ -56,32 +80,59 @@ const LoginPage = () => {
           </motion.h1>
         </div>
         <motion.form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
           className="flex flex-col items-center w-full gap-3"
           variants={formVariants}
         >
           <input
             type="email"
             required
+            value={loginInfo.email}
+            onChange={(e) => {
+              setLoginInfo({
+                ...loginInfo,
+                email: e.target.value,
+              });
+            }}
             className="border w-3/4 md:w-2/4 h-12 rounded-md   placeholder:font-light placeholder:p-2  focus:outline-primary text-primary p-2"
             placeholder="Email"
           />
+          {validationErrors.email && (
+            <p className="text-red-600 ml-5">{validationErrors.email}</p>
+          )}
           <input
             type="password"
             required
+            value={loginInfo.password}
+            onChange={(e) =>
+              setLoginInfo({ ...loginInfo, password: e.target.value })
+            }
             className="border w-3/4 md:w-2/4 h-12 rounded-md   placeholder:font-light placeholder:p-2  focus:outline-primary text-primary p-2"
             placeholder="Password"
           />
+          {validationErrors.password && (
+            <p className="text-red-600 ml-5">{validationErrors.password}</p>
+          )}
           <motion.button
-            className="w-3/4 md:w-2/4 text-center h-12 rounded-md bg-primary text-white"
+            className={`w-3/4 md:w-2/4 text-center h-12 rounded-md bg-primary text-white  ${
+              !isButtonDisabled
+                ? "bg-primary cursor-pointer bg-opacity-100"
+                : "opacity-50 pointer-events-none"
+            }`}
             variants={buttonVariants}
-            whileHover="hover"
+            disabled={isButtonDisabled}
+            onClick={handleLogin}
             whileTap="tap"
           >
             Login
           </motion.button>
+
           <p
             className="w-3/4 md:w-2/4 text-end text-sm cursor-pointer text-gray-400"
-            onClick={() => setShowModal(true)}
+            onClick={() => setShowPhoneModal(true)}
           >
             login using OTP?
           </p>
@@ -96,7 +147,12 @@ const LoginPage = () => {
           </span>
         </div>
       </motion.div>
-      <Otpmodal showModal={showModal} setShowModal={setShowModal} />
+      <Otpmodal showOTPModal={showOTPModal} setShowOTPModal={setShowOTPModal} />
+      <PhoneModal
+        showPhoneModal={showPhoneModal}
+        setShowPhoneModal={setShowPhoneModal}
+        setShowOTPModal={setShowOTPModal}
+      />
     </motion.div>
   );
 };
