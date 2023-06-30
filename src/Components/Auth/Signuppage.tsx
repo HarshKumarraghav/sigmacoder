@@ -1,8 +1,29 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FaArrowCircleLeft } from "react-icons/fa";
-
-const Signuppage = () => {
+import { useEffect, useState } from "react";
+import { validateSignUpInputs } from "../../utils/Auth";
+type Props = {
+  signupInfo: any;
+  isLoading: boolean;
+  SignupHandler: () => void;
+  setSignupInfo: (signupInfo: any) => void;
+};
+const Signuppage = ({
+  signupInfo,
+  setSignupInfo,
+  isLoading,
+  SignupHandler,
+}: Props) => {
+  // State to disable button if any of the input is empty
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  // State to store validation errors
+  const [validationErrors, setValidationErrors] = useState({
+    name: "",
+    phonenumber: "",
+    email: "",
+    password: "",
+  });
   const router = useNavigate();
 
   const containerVariants = {
@@ -19,6 +40,19 @@ const Signuppage = () => {
     hover: { scale: 1.1 },
     tap: { scale: 0.9 },
   };
+  const handleSignup = () => {
+    if (!validateSignUpInputs(signupInfo, setValidationErrors)) {
+      SignupHandler();
+    }
+  };
+  useEffect(() => {
+    setIsButtonDisabled(
+      !signupInfo.name ||
+        !signupInfo.phonenumber ||
+        !signupInfo.email ||
+        !signupInfo.password
+    );
+  }, [signupInfo]);
 
   return (
     <>
@@ -65,50 +99,97 @@ const Signuppage = () => {
           <motion.form
             className="flex flex-col items-center w-full gap-3"
             variants={formVariants}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSignup();
+            }}
           >
-            <div className="flex flex-col md:flex-row w-3/4 md:w-2/4 gap-x-3 gap-y-2">
-              <input
-                type="text"
-                required
-                className="border w-full h-12 rounded-md placeholder:font-light placeholder:p-2 focus:outline-primary p-2"
-                placeholder="First Name"
-              />
-              <input
-                type="text"
-                required
-                className="border w-full h-12 rounded-md placeholder:font-light placeholder:p-2 focus:outline-primary p-2"
-                placeholder="Last Name"
-              />
-            </div>
-
+            <input
+              type="text"
+              value={signupInfo.name}
+              onChange={(e) => {
+                setSignupInfo({ ...signupInfo, name: e.target.value });
+              }}
+              required
+              className="border w-3/4 md:w-2/4 h-12 rounded-md   placeholder:font-light placeholder:p-2  focus:outline-primary text-primary p-2"
+              placeholder="Full Name"
+            />
+            {validationErrors.name && (
+              <span className="text-red-500 text-sm">
+                {validationErrors.name}
+              </span>
+            )}
             <input
               type="email"
+              value={signupInfo.email}
+              onChange={(e) => {
+                setSignupInfo({ ...signupInfo, email: e.target.value });
+              }}
               required
-              className="border w-3/4 md:w-2/4 h-12 rounded-md placeholder:font-light placeholder:p-2 focus:outline-primary p-2"
+              className="border w-3/4 md:w-2/4 h-12 rounded-md   placeholder:font-light placeholder:p-2  focus:outline-primary text-primary p-2"
               placeholder="Email address"
             />
+            {validationErrors.email && (
+              <span className="text-red-500 text-sm">
+                {validationErrors.email}
+              </span>
+            )}
 
             <input
               type="number"
+              value={signupInfo.phonenumber}
+              onChange={(e) => {
+                setSignupInfo({ ...signupInfo, phonenumber: e.target.value });
+              }}
               required
-              className="border w-3/4 md:w-2/4 h-12 rounded-md placeholder:font-light placeholder:p-2 focus:outline-primary p-2"
+              className="border w-3/4 md:w-2/4 h-12 rounded-md   placeholder:font-light placeholder:p-2  focus:outline-primary text-primary p-2"
               placeholder="Phone number"
             />
-
+            {validationErrors.phonenumber && (
+              <span className="text-red-500 text-sm">
+                {validationErrors.phonenumber}
+              </span>
+            )}
             <input
               type="password"
+              value={signupInfo.password}
+              onChange={(e) => {
+                setSignupInfo({ ...signupInfo, password: e.target.value });
+              }}
               required
-              className="border w-3/4 md:w-2/4 h-12 rounded-md placeholder:font-light placeholder:p-2 focus:outline-primary p-2"
+              className="border w-3/4 md:w-2/4 h-12 rounded-md   placeholder:font-light placeholder:p-2  focus:outline-primary text-primary p-2"
               placeholder="Password"
             />
-
+            {validationErrors.password && (
+              <span className="text-red-500 text-sm">
+                {validationErrors.password}
+              </span>
+            )}
             <motion.button
-              className="w-3/4 md:w-2/4 text-center h-12 rounded-md bg-primary text-white"
+              className={`w-3/4 md:w-2/4 text-center h-12 rounded-md bg-primary text-white  ${
+                !isButtonDisabled
+                  ? "bg-primary cursor-pointer bg-opacity-100"
+                  : "opacity-50 pointer-events-none"
+              }`}
               variants={buttonVariants}
-              whileHover="hover"
+              disabled={isLoading || isButtonDisabled}
               whileTap="tap"
             >
-              Register
+              {isLoading ? (
+                <span className="w-full flex items-center justify-center gap-x-4">
+                  <div
+                    className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    role="status"
+                  >
+                    <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                      Loading...
+                    </span>
+                  </div>
+                  <span>Registering User...</span>
+                </span>
+              ) : (
+                <span>Register</span>
+              )}
             </motion.button>
           </motion.form>
 

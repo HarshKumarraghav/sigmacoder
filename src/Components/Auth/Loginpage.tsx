@@ -9,7 +9,6 @@ type LoginInfo = {
   email: string;
   password: string;
 };
-
 type Props = {
   loginInfo: LoginInfo;
   setLoginInfo: React.Dispatch<React.SetStateAction<LoginInfo>>;
@@ -142,7 +141,6 @@ const LoginPage = ({
             variants={buttonVariants}
             disabled={isLoading || isButtonDisabled}
             whileTap="tap"
-            onClick={handleLogin}
           >
             {isLoading ? (
               <span className="w-full flex items-center justify-center gap-x-4">

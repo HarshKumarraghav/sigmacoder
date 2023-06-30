@@ -9,8 +9,11 @@ const Section2 = () => {
   const [ref2, inView2] = useInView({
     triggerOnce: true,
   });
-
   const [ref3, inView3] = useInView({
+    triggerOnce: true,
+  });
+
+  const [ref4, inView4] = useInView({
     triggerOnce: true,
   });
 
@@ -99,9 +102,9 @@ const Section2 = () => {
       <motion.div
         className="bg-black relative text-gray-500 p-8 md:h-[400px] h-[450px] flex flex-col rounded-[2.3rem] md:col-span-2 col-span-3"
         initial="hidden"
-        animate={inView1 ? "visible" : "hidden"}
+        animate={inView4 ? "visible" : "hidden"}
         variants={containerVariants}
-        ref={ref1}
+        ref={ref4}
       >
         <h1 className="font-bold text-white font-sans mb-4 mt-8 text-4xl md:text-6xl">
           Student Performance Analytics
