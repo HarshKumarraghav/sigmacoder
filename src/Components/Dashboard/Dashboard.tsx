@@ -1,5 +1,6 @@
 import MainHeader from "../Navbar/MainHeader";
 import Section1 from "./Section1";
+import { DataTableDemo } from "./DataTableDemo";
 import Section2 from "./Section2";
 const Dashboard = () => {
   return (
@@ -11,6 +12,7 @@ const Dashboard = () => {
             <Section1 />
           </div>
           <Section2 />
+          <DataTableDemo />
         </div>
       </main>
     </>

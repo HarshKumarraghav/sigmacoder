@@ -1,8 +1,8 @@
-import Header from "../Components/Navbar/Header";
-import Section2 from "../Components/Home/Section2";
-import Seection3 from "../Components/Home/Seection3";
-import Footer from "../Components/Footer/Footer";
-import Section1 from "../Components/Home/Section1";
+import Header from "../components/Navbar/Header";
+import Section2 from "../components/Home/Section2";
+import Seection3 from "../components/Home/Seection3";
+import Footer from "../components/Footer/Footer";
+import Section1 from "../components/Home/Section1";
 
 const Home = () => {
   return (
