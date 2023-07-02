@@ -1,8 +1,10 @@
 import MainHeader from "../Navbar/MainHeader";
 import Section1 from "./Section1";
-import { DataTableDemo } from "./DataTableDemo";
-import Section2 from "./Section2";
+import { DataTable } from "./Table/Data-table";
+import { Columns } from "./Table/Column";
+import { useDashboard } from "@/Context/DashboardContext/DashbaordContext";
 const Dashboard = () => {
+  const { allQuestions } = useDashboard();
   return (
     <>
       <MainHeader />
@@ -11,8 +13,8 @@ const Dashboard = () => {
           <div className="w-full">
             <Section1 />
           </div>
-          <Section2 />
-          <DataTableDemo />
+          <DataTable columns={Columns} data={allQuestions} />
+          {/* <DataTableDemo /> */}
         </div>
       </main>
     </>
