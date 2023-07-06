@@ -58,7 +58,7 @@ export function DataTable<TData, TValue>({
         setListSelectValue={setListSelectValue}
         setSelectedStatus={setSelectedStatus}
       />
-      <div className="md:mt-6 rounded-md border">
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

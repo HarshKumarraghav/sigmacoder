@@ -1,6 +1,6 @@
 import { BsFillArrowRightCircleFill } from "react-icons/bs";
 
-const Section1 = () => {
+const SheetCard = () => {
   return (
     <div className="hide__scrollbar md:mb-0 mb-4 w-full overflow-x-auto">
       <div className="mt-4 flex gap-4 w-max">
@@ -79,4 +79,4 @@ const Section1 = () => {
   );
 };
 
-export default Section1;
+export default SheetCard;
